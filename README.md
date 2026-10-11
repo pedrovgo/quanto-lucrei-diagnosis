@@ -130,9 +130,6 @@ Quando a classificacao nao atinge esse criterio, o arquivo nao e transformado
 em produtos. Ele e encaminhado para
 `UnreliableProductFileHandlerImpl`, que atualmente registra o caso no log.
 
-O ponto de persistencia do arquivo para analise manual esta marcado com
-`TODO` nessa classe.
-
 ## Arquitetura
 
 ```text
