@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.quanto_lucrei.diagnosis.product.domain.Product;
@@ -22,17 +23,20 @@ public class ProductImportServiceImpl implements ProductImportService {
 	private final ProductClassifier productClassifier;
 	private final ProductAssembler productAssembler;
 	private final UnreliableProductFileHandler unreliableProductFileHandler;
+	private final double minimumConfidence;
 
 	public ProductImportServiceImpl(
 			ProductFileReader fileReader,
 			ProductClassifier productClassifier,
 			ProductAssembler productAssembler,
-			UnreliableProductFileHandler unreliableProductFileHandler
+			UnreliableProductFileHandler unreliableProductFileHandler,
+			@Value("${product.classification.minimum-confidence:0.5555}") double minimumConfidence
 	) {
 		this.fileReader = fileReader;
 		this.productClassifier = productClassifier;
 		this.productAssembler = productAssembler;
 		this.unreliableProductFileHandler = unreliableProductFileHandler;
+		this.minimumConfidence = minimumConfidence;
 	}
 
 	@Override
@@ -53,10 +57,9 @@ public class ProductImportServiceImpl implements ProductImportService {
 		}
 
 		ProductColumnMapping mapping = productClassifier.classify(rows);
-		if (!mapping.isReliable()) {
-			String reason = mapping.reliabilityReason();
+		if (!mapping.isReliable(minimumConfidence)) {
+			String reason = mapping.reliabilityReason(minimumConfidence);
 			unreliableProductFileHandler.handle(file, mapping, reason);
-			return List.of();
 		}
 		return productAssembler.assemble(rows, mapping);
 	}

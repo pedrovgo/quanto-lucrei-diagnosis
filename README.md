@@ -126,9 +126,26 @@ Exemplo de resposta:
 O resultado do Jev e considerado confiavel quando as colunas de nome e custo
 sao identificadas com confianca minima de `0.75`.
 
-Quando a classificacao nao atinge esse criterio, o arquivo nao e transformado
-em produtos. Ele e encaminhado para
-`UnreliableProductFileHandlerImpl`, que atualmente registra o caso no log.
+Quando a classificacao nao atinge esse criterio, o arquivo e encaminhado para
+`UnreliableProductFileHandlerImpl`. O arquivo original e salvo no bucket S3
+configurado em `product.review.s3.bucket`, com o motivo e os dados da
+classificacao registrados como metadados do objeto.
+
+Configure as credenciais diretamente no bloco S3:
+
+```yaml
+product:
+  review:
+    s3:
+      bucket: quanto-lucrei-s3-bucket
+      region: us-east-2
+      access-key: "sua-access-key"
+      secret-key: "sua-secret-key"
+```
+
+Nao compartilhe o arquivo de configuracao nem commite credenciais reais no
+repositorio. Para um storage S3-compatible, tambem e possivel configurar o
+endpoint por `PRODUCT_REVIEW_S3_ENDPOINT`.
 
 ## Arquitetura
 

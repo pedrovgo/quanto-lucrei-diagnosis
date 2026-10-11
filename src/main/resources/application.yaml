@@ -5,3 +5,14 @@ spring:
 openrouter:
   api-key: ${OPENROUTER_API_KEY:}
   model: "typesafe/jev-1.13"
+
+product:
+  classification:
+    minimum-confidence: 0.5555
+  review:
+    s3:
+      bucket: ${PRODUCT_REVIEW_S3_BUCKET:quanto-lucrei-s3-bucket}
+      region: ${AWS_REGION:us-east-2}
+      path-style-access: ${PRODUCT_REVIEW_S3_PATH_STYLE:false}
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}

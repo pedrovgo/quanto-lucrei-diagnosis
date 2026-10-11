@@ -34,7 +34,19 @@
         <logback.version>1.6.3</logback.version>
         <poi.version>5.4.1</poi.version>
         <commons.csv.version>1.14.1</commons.csv.version>
+        <aws.sdk.version>2.31.68</aws.sdk.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -56,6 +68,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
 			<version>${commons.csv.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
 		</dependency>
 
 		<dependency>
