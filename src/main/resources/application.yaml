@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: diagnosis
+
+openrouter:
+  api-key: ${OPENROUTER_API_KEY}
+  model: "typesafe/jev-1.13"
